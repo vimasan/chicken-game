@@ -44,9 +44,6 @@ export class Renderer {
   }
 
   clearCanvas () {
-    // Limpiar todo el canvas con el color de fondo
-    // this.ctx.fillStyle = this.background;
-    // this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 

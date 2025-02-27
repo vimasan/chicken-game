@@ -13,3 +13,9 @@ export const SPRITES = {
   CHICKEN: 'assets/sprites/chicken.png',
   EGG: 'assets/sprites/egg.png'
 };
+
+export const AUDIO = {
+  EGG_LAY: 'assets/sounds/eggLay.mp3',
+  EGG_HATCH: 'assets/sounds/eggHatch.mp3',
+  VOLUME: 0.3
+};

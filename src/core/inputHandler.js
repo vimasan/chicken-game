@@ -5,7 +5,10 @@ export class InputHandler {
       a: false,
       s: false,
       d: false,
-      space: false
+      space: {
+        pressed: false,
+        justPressed: false
+      }
     };
 
     this.setupEventListeners();
@@ -46,7 +49,10 @@ export class InputHandler {
         this.keys.d = true;
         break;
       case 'Space':
-        this.keys.space = true;
+        if (!this.keys.space.pressed) {
+          this.keys.space.justPressed = true;
+        }
+        this.keys.space.pressed = true;
         event.preventDefault(); // Evitar scroll
         break;
     }
@@ -71,7 +77,9 @@ export class InputHandler {
         this.keys.d = false;
         break;
       case 'Space':
-        this.keys.space = false;
+        this.keys.space.pressed = false;
+        this.keys.space.justPressed = false;
+
         break;
     }
   }
@@ -83,8 +91,12 @@ export class InputHandler {
     };
   }
 
-  get isSpacePressed () {
-    return this.keys.space;
+  get spaceJustPressed () {
+    return this.keys.space.justPressed;
+  }
+
+  resetJustPressed () {
+    this.keys.space.justPressed = false;
   }
 
   cleanup () {

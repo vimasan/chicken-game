@@ -11,7 +11,7 @@ export const update = (inputHandler) => {
     mainChicken.update(inputHandler);
 
     // Manejar puesta de huevos
-    if (inputHandler.isSpacePressed) {
+    if (mainChicken && inputHandler.spaceJustPressed) {
       gameState.addEgg(mainChicken.x, mainChicken.y);
     }
   }
@@ -34,11 +34,12 @@ export const initGame = async () => {
   const inputHandler = new InputHandler();
   const renderer = new Renderer(canvas, ctx, assets);
 
-  gameState.init(canvas);
+  gameState.init(canvas, assets);
 
   const gameLoop = () => {
     update(inputHandler);
     renderer.draw(gameState);
+    inputHandler.resetJustPressed();
     globalThis.requestAnimationFrame(gameLoop);
   };
 

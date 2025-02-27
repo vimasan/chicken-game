@@ -1,7 +1,7 @@
 // js/state/gameState.js
 import { Chicken } from '../entities/chicken.js';
 import { Egg } from '../entities/Egg.js';
-import { PHYSICS } from '../config/config.js';
+import { PHYSICS, AUDIO } from '../config/config.js';
 
 export const gameState = {
   // Propiedades del estado
@@ -9,10 +9,12 @@ export const gameState = {
   chickens: [],
   eggs: [],
   eggCounter: 0,
+  assets: null,
 
   // Métodos de inicialización
-  init (canvasElement) {
+  init (canvasElement, assets) {
     this.canvas = canvasElement;
+    this.assets = assets;
     this.reset();
   },
 
@@ -33,6 +35,7 @@ export const gameState = {
     const newEgg = new Egg(x, y);
     this.eggs.push(newEgg);
     this.eggCounter++;
+    this.playSound('eggLay');
   },
 
   addChicken (x, y, isPlayer = false) {
@@ -43,7 +46,6 @@ export const gameState = {
       this.chickens.push(newChicken);
       return true;
     }
-    console.log('No se pudo agregar la gallina');
     return false;
   },
 
@@ -105,15 +107,18 @@ export const gameState = {
   },
 
   hatchEgg (egg) {
-    if (
-      Math.random() < 0.3 &&
-      this.chickens.some((chicken) => {
-        const dx = chicken.x - egg.x;
-        const dy = chicken.y - egg.y;
-        return Math.sqrt(dx * dx + dy * dy) < PHYSICS.EGG_SPAWN_RADIUS;
-      })
-    ) {
+    if (Math.random() < 0.3) {
       this.addChicken(egg.x, egg.y);
+      this.playSound('eggHatch');
     }
+  },
+
+  playSound (soundType) {
+    if (!this.assets?.sound?.[soundType]) return;
+    const sound = this.assets.sound[soundType].cloneNode();
+    sound.volume = AUDIO.VOLUME;
+    sound.play().catch((error) => {
+      console.log('Audio requiere interaccion del usuairo:', error);
+    });
   }
 };
