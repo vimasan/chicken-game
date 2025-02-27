@@ -22,3 +22,7 @@ export const AUDIO = {
   EGG_HATCH: 'assets/sounds/eggHatch.mp3',
   VOLUME: 0.3
 };
+
+export const CHICKEN_CONFIG = {
+  EGG_PROBABILITY: 0.003 // 3% de posibilidades de huevo.
+};

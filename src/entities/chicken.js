@@ -1,4 +1,4 @@
-import { PHYSICS } from '../config/config';
+import { CHICKEN_CONFIG, PHYSICS } from '../config/config';
 import { gameState } from '../state/gameState';
 
 export class Chicken {
@@ -10,7 +10,6 @@ export class Chicken {
     this.frame = 0;
     this.speed = 3;
     this.animationTimer = 0;
-    this.directionTimer = 0;
     this.direction = 0;
 
     // Propiedades de movimiento suave
@@ -34,11 +33,19 @@ export class Chicken {
     if (!this.isPlayer) {
       // Movimiento de los npc
       this.applyNPCPhysics();
+      // if (Math.random() < 0.001) {
+      if (Math.random() < CHICKEN_CONFIG.EGG_PROBABILITY) {
+        this.layEdge(this.x, this.y);
+      }
     } else if (this.isPlayer) {
       this.handlePlayerInput(input);
       this.applyMovementConstraints();
     }
     this.updateAnimation();
+  }
+
+  layEdge (x, y) {
+    gameState.addEgg(x, y);
   }
 
   applyNPCPhysics () {
@@ -130,13 +137,13 @@ export class Chicken {
     }
   }
 
-  applyPhysics (physics) {
-    // Todo!: Implementar correctamente la fisica de movimiento
-    this.x += this.dx;
-    this.y += this.dy;
-    this.dx *= physics.FRICTION;
-    this.dy *= physics.FRICTION;
-  }
+  // applyPhysics (physics) {
+  //   // Todo!: Implementar correctamente la fisica de movimiento
+  //   this.x += this.dx;
+  //   this.y += this.dy;
+  //   this.dx *= physics.FRICTION;
+  //   this.dy *= physics.FRICTION;
+  // }
 
   updateAnimation () {
     this.animationTimer++;
