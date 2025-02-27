@@ -5,7 +5,8 @@ export const PHYSICS = {
   COLLISION_RADIUS: 36,
   REPEL_FORCE: 1.8,
   TURN_RATE: 0.08,
-  EGG_SPAWN_RADIUS: 35
+  EGG_SPAWN_RADIUS: 35,
+  BOUNCE_MARGIN: 34
 };
 
 export const SPRITES = {

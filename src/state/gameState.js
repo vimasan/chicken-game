@@ -37,7 +37,6 @@ export const gameState = {
 
   addChicken (x, y, isPlayer = false) {
     const isValid = this.isValidPosition(x, y);
-    //const isValid = true;
     if (isValid) {
       const newChicken = new Chicken(x, y, isPlayer);
       console.log(this.chickens);

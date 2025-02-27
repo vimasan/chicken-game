@@ -1,4 +1,5 @@
 import { PHYSICS } from '../config/config';
+import { gameState } from '../state/gameState';
 
 export class Chicken {
   constructor (x, y, isPlayer = false) {
@@ -11,6 +12,11 @@ export class Chicken {
     this.animationTimer = 0;
     this.direction = 0;
 
+    // Propiedades de movimiento suave
+    this.velocity = { x: 0, y: 0 };
+    this.acceleration = 0.5;
+    this.friction = 0.85;
+
     if (!isPlayer) {
       this.initNPC();
     }
@@ -22,10 +28,71 @@ export class Chicken {
     this.dy = Math.sin(angle) * PHYSICS.MAX_SPEED;
   }
 
-  update (physics) {
+  // update(physics) {
+  //   if (!this.isPlayer) {
+  //     // Movimiento de los npc
+  //     this.applyPhysics(physics);
+  //   }
+  // }
+  update (input) {
     if (!this.isPlayer) {
       // Movimiento de los npc
-      this.applyPhysics(physics);
+      this.applyPhysics(PHYSICS);
+    } else if (this.isPlayer) {
+      this.handlePlayerInput(input);
+      this.applyMovementConstraints();
+    }
+    this.updateAnimation();
+  }
+
+  // updatePlayer (input) {
+  //   if (this.isPlayer) {
+  //     this.handlePlayerInput(input);
+  //     this.applyMovementConstraints();
+  //   }
+  //   this.updateAnimation();
+  // }
+
+  handlePlayerInput (input) {
+    const move = input.movementVector;
+
+    // Aceleración
+    if (move.x !== 0) this.velocity.x += move.x * this.acceleration;
+    if (move.y !== 0) this.velocity.y += move.y * this.acceleration;
+
+    // Fricción
+    this.velocity.x *= this.friction;
+    this.velocity.y *= this.friction;
+
+    // Limitar velocidad máxima
+    const speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.y ** 2);
+    if (speed > this.speed) {
+      this.velocity.x = (this.velocity.x / speed) * this.speed;
+      this.velocity.y = (this.velocity.y / speed) * this.speed;
+    }
+
+    // Actualizar posición
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+
+    // Actualizar dirección
+    if (speed > 0.1) {
+      this.direction = Math.atan2(this.velocity.y, this.velocity.x);
+    }
+  }
+
+  applyMovementConstraints () {
+    // Limites de pantalla con margen del tamaño de la gallina
+    const margin = this.size / 2;
+    this.x = Math.max(margin, Math.min(this.x, gameState.canvas.width - margin));
+    this.y = Math.max(margin, Math.min(this.y, gameState.canvas.height - margin));
+
+    // Ajustar velocidad si está en el borde
+    if (this.x <= margin || this.x >= gameState.canvas.width - margin) {
+      this.velocity.x *= -0.5;
+    }
+    if (this.y <= margin || this.y >= gameState.canvas.height - margin) {
+      this.velocity.y *= -0.5;
     }
   }
 

@@ -1,14 +1,36 @@
+import { PHYSICS } from '../config/config';
+
 export class Renderer {
   constructor (canvas, ctx, assets) {
     this.canvas = canvas;
     this.ctx = ctx;
     this.assets = assets;
+    this.background = '#87CEEB';
   }
 
   drawChicken (chickens) {
     chickens.forEach(chicken => {
-      // !Todo: Revisar la logica de dibujado de las gallinas
-      this.ctx.drawImage(this.assets.chicken, chicken.x, chicken.y, chicken.size, chicken.size);
+      // this.ctx.save();
+      // this.ctx.translate(chicken.x, chicken.y);
+      // this.ctx.rotate(chicken.direction);
+
+      this.ctx.drawImage(
+        this.assets.chicken,
+        // Recorte del sprite
+        chicken.frame * 48,
+        0,
+        48,
+        48,
+        chicken.x - PHYSICS.BOUNCE_MARGIN, chicken.y - PHYSICS.BOUNCE_MARGIN,
+        chicken.size, chicken.size);
+
+      // Dibujar sombra para mejor efecto visual
+      // this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      // this.ctx.beginPath();
+      // this.ctx.ellipse(0, 10, 20, 8, 0, 0, Math.PI * 2);
+      // this.ctx.fill();
+
+      // this.ctx.restore();
     });
   }
 
@@ -19,17 +41,18 @@ export class Renderer {
   }
 
   drawCounter (counter) {
-    this.ctx.font = '24px Arial';
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillText(`Huevos: ${counter}`, 10, 30);
   }
 
   clearCanvas () {
+    // Limpiar todo el canvas con el color de fondo
+    // this.ctx.fillStyle = this.background;
+    // this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   draw (state) {
     this.clearCanvas();
+
     this.drawChicken(state.chickens);
     this.drawEggs(state.eggs);
     this.drawCounter(state.counter);
