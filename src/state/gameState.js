@@ -42,7 +42,9 @@ export const gameState = {
     const isValid = this.isValidPosition(x, y);
     if (isValid) {
       const newChicken = new Chicken(x, y, isPlayer);
-      console.log(this.chickens);
+      // Fuerza inicial aleatoria
+      newChicken.dx = (Math.random() - 0.5) * PHYSICS.MAX_SPEED * 2;
+      newChicken.dy = (Math.random() - 0.5) * PHYSICS.MAX_SPEED * 2;
       this.chickens.push(newChicken);
       return true;
     }

@@ -1,4 +1,3 @@
-import { PHYSICS } from '../config/config';
 import { gameState } from '../state/gameState';
 import { loadAssets } from '../utils/assetsLoader';
 import { InputHandler } from './inputHandler';

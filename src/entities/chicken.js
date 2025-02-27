@@ -10,6 +10,7 @@ export class Chicken {
     this.frame = 0;
     this.speed = 3;
     this.animationTimer = 0;
+    this.directionTimer = 0;
     this.direction = 0;
 
     // Propiedades de movimiento suave
@@ -26,18 +27,13 @@ export class Chicken {
     const angle = Math.random() * Math.PI * 2;
     this.dx = Math.cos(angle) * PHYSICS.MAX_SPEED;
     this.dy = Math.sin(angle) * PHYSICS.MAX_SPEED;
+    this.speed = PHYSICS.MAX_SPEED;
   }
 
-  // update(physics) {
-  //   if (!this.isPlayer) {
-  //     // Movimiento de los npc
-  //     this.applyPhysics(physics);
-  //   }
-  // }
   update (input) {
     if (!this.isPlayer) {
       // Movimiento de los npc
-      this.applyPhysics(PHYSICS);
+      this.applyNPCPhysics();
     } else if (this.isPlayer) {
       this.handlePlayerInput(input);
       this.applyMovementConstraints();
@@ -45,12 +41,50 @@ export class Chicken {
     this.updateAnimation();
   }
 
-  // updatePlayer (input) {
-  //   if (this.isPlayer) {
-  //     this.handlePlayerInput(input);
-  //     this.applyMovementConstraints();
+  applyNPCPhysics () {
+    // Actualizar la posicion
+    this.x += this.dx;
+    this.y += this.dy;
+
+    // Normalizar velocidad
+    const speed = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+    if (speed > PHYSICS.MAX_SPEED) {
+      this.dx = (this.dx / speed) * PHYSICS.MAX_SPEED;
+      this.dy = (this.dy / speed) * PHYSICS.MAX_SPEED;
+    }
+
+    // Rebote en bordes
+    const margin = this.size / 2;
+    if (this.x < margin || this.x > gameState.canvas.width - margin) {
+      this.dx *= -PHYSICS.BOUNCE_FACTOR;
+      this.x = Math.max(margin, Math.min(this.x, gameState.canvas.width - margin));
+    }
+    if (this.y < margin || this.y > gameState.canvas.height - margin) {
+      this.dy *= -PHYSICS.BOUNCE_FACTOR;
+      this.y = Math.max(margin, Math.min(this.y, gameState.canvas.height - margin));
+    }
+
+    if (Math.random() < 0.09) {
+      // 9% de probabilidad por frame
+      this.dx += (Math.random() - 0.5) * PHYSICS.RANDOM_FORCE;
+      this.dy += (Math.random() - 0.5) * PHYSICS.RANDOM_FORCE;
+    }
+  }
+
+  // applyNPCPhysicsBasic () {
+  //   // Aplicar movimiento básico
+  //   this.x += this.dx;
+  //   this.y += this.dy;
+
+  //   // Rebote en bordes
+  //   if (this.x < 24 || this.x > gameState.canvas.width - 24) {
+  //     this.dx *= -1;
+  //     this.x = Math.max(24, Math.min(this.x, gameState.canvas.width - 24));
   //   }
-  //   this.updateAnimation();
+  //   if (this.y < 24 || this.y > gameState.canvas.height - 24) {
+  //     this.dy *= -1;
+  //     this.y = Math.max(24, Math.min(this.y, gameState.canvas.height - 24));
+  //   }
   // }
 
   handlePlayerInput (input) {
