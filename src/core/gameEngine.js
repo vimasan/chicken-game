@@ -25,6 +25,7 @@ export const update = (inputHandler) => {
 export const initGame = async () => {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
+  const counterElement = document.getElementById('counter');
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -33,7 +34,7 @@ export const initGame = async () => {
   const inputHandler = new InputHandler();
   const renderer = new Renderer(canvas, ctx, assets);
 
-  gameState.init(canvas, assets);
+  gameState.init(canvas, assets, counterElement);
 
   const gameLoop = () => {
     update(inputHandler);

@@ -9,10 +9,12 @@ export const gameState = {
   chickens: [],
   eggs: [],
   eggCounter: 0,
+  chickenCounter: 0,
   assets: null,
 
   // Métodos de inicialización
-  init (canvasElement, assets) {
+  init (canvasElement, assets, counterElementId) {
+    this.counterElement = counterElementId;
     this.canvas = canvasElement;
     this.assets = assets;
     this.reset();
@@ -22,6 +24,7 @@ export const gameState = {
     this.chickens = [];
     this.eggs = [];
     this.eggCounter = 0;
+    this.chickenCounter = 0;
     this.createMainChicken();
   },
 
@@ -36,6 +39,7 @@ export const gameState = {
     this.eggs.push(newEgg);
     this.eggCounter++;
     this.playSound('eggLay');
+    this.updateCounter();
   },
 
   addChicken (x, y, isPlayer = false) {
@@ -49,6 +53,13 @@ export const gameState = {
       return true;
     }
     return false;
+  },
+
+  updateCounter () {
+    console.log('--- update counter');
+    if (this.counterElement) {
+      this.counterElement.textContent = `Huevos: ${this.eggCounter} | Gallinas: ${this.chickenCounter}`;
+    }
   },
 
   // Lógica de validación
@@ -102,6 +113,12 @@ export const gameState = {
     this.eggs = this.eggs.filter((egg) => {
       if (now > egg.hatchTime && !egg.hatched) {
         this.hatchEgg(egg);
+        this.eggCounter--;
+        this.updateCounter();
+        return false;
+      } else if (egg.hatched) {
+        this.eggCounter--;
+        this.updateCounter();
         return false;
       }
       return true;
@@ -112,6 +129,8 @@ export const gameState = {
     if (Math.random() < 0.3) {
       this.addChicken(egg.x, egg.y);
       this.playSound('eggHatch');
+      this.chickenCounter++;
+      this.updateCounter();
     }
   },
 
