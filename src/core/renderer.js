@@ -36,22 +36,22 @@ export class Renderer {
 
   drawEggs (eggs) {
     eggs.forEach(egg => {
-      this.ctx.drawImage(this.assets.egg, 0, 0, 48, 51, egg.x, egg.y, egg.size, egg.size);
-    });
-  }
+      let posInitialImage = 0;
+      if (!egg.hatched && !egg.expired) posInitialImage = 0;
+      if (egg.hatched) posInitialImage = 48;
+      if (egg.expired) posInitialImage = 96;
 
-  drawHatchedEggs (eggs) {
-    eggs.forEach(egg => {
-      const progress = (Date.now() - egg.hatchTime) / egg.hatchDuration;
-      this.ctx.globalAlpha = 1 - Math.min(progress, 1);
-      this.ctx.drawImage(this.assets.egg, 48, 0, 48, 51, egg.x, egg.y, egg.size, egg.size);
-      this.ctx.globalAlpha = 1;
-    });
-  }
-
-  drawExpiredEggs (eggs) {
-    eggs.forEach(egg => {
-      this.ctx.drawImage(this.assets.egg, 96, 0, 48, 51, egg.x, egg.y, egg.size, egg.size);
+      this.ctx.drawImage(
+        this.assets.egg, // Imagen
+        posInitialImage, // Posicion izquierdainicial de la imagen
+        0, // Posicion inicial superior de la imagen
+        48, // Ancho de la imagen
+        51, // Alto de la imagen
+        egg.x, // Posicion inicial en el canvas
+        egg.y, // Posicion inicial en el canvas
+        egg.size, // Ancho del canvas
+        egg.size // Alto del canvas
+      );
     });
   }
 
@@ -67,8 +67,8 @@ export class Renderer {
 
     this.drawChicken(state.chickens);
     this.drawEggs(state.eggs);
-    this.drawHatchedEggs(state.hatchedEggs);
-    this.drawExpiredEggs(state.expiredEggs);
+    // this.drawHatchedEggs(state.hatchedEggs);
+    // this.drawExpiredEggs(state.expiredEggs);
     this.drawCounter(state.counter);
   }
 }

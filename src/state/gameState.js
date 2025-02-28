@@ -1,7 +1,7 @@
 // js/state/gameState.js
 import { Chicken } from '../entities/chicken.js';
 import { Egg } from '../entities/Egg.js';
-import { PHYSICS, AUDIO, CHICKEN_CONFIG } from '../config/config.js';
+import { PHYSICS, AUDIO, CHICKEN } from '../config/config.js';
 
 export const gameState = {
   // Propiedades del estado
@@ -110,55 +110,30 @@ export const gameState = {
     }
   },
 
-  // updateEggs () {
-  //   const now = Date.now();
-  //   this.eggs = this.eggs.filter((egg) => {
-  //     if (now > egg.hatchTime && !egg.hatched) {
-  //       this.hatchEgg(egg);
-  //       this.hatchedEggs.push(egg);
-  //       this.eggCounter--;
-  //       this.updateCounter();
-  //       console.log('egg hatched');
-  //       return false;
-  //     }
-  //     if (egg.hatched) {
-  //       this.expiredEggs.push(egg);
-  //       this.eggCounter--;
-  //       this.updateCounter();
-  //       console.log('egg expected');
-  //       return false;
-  //     }
-  //     return true;
-  //   });
-  // },
-
   updateEggs () {
     const now = Date.now();
     this.eggs = this.eggs.filter((egg) => {
-      if (now > egg.hatchTime && !egg.hatched) {
-        if (this.chickens.length < CHICKEN_CONFIG.MAX) {
-          this.hatchEgg(egg);
-        }
-        if (egg.hatched) {
-          this.hatchedEggs.push(egg);
-        } else {
-          this.expiredEggs.push(egg);
-        }
+      if (now > egg.maximunLifeTime) {
+        return false;
+      }
+      if (now > egg.incubationTime && !egg.hatched && !egg.expired) {
+        this.hatchEgg(egg);
         this.eggCounter--;
         this.updateCounter();
-        return false;
       }
       return true;
     });
   },
 
   hatchEgg (egg) {
-    if (Math.random() < 0.3) {
+    if (Math.random() < CHICKEN.EGG_PROBABILITY_HATCH && this.chickenCounter < CHICKEN.MAX) {
       egg.hatched = true;
       this.addChicken(egg.x, egg.y);
       this.playSound('eggHatch');
       this.chickenCounter++;
       this.updateCounter();
+    } else {
+      egg.expired = true;
     }
   },
 

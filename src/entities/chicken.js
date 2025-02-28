@@ -1,4 +1,4 @@
-import { CHICKEN_CONFIG, PHYSICS } from '../config/config';
+import { CHICKEN, PHYSICS } from '../config/config';
 import { gameState } from '../state/gameState';
 
 export class Chicken {
@@ -34,7 +34,7 @@ export class Chicken {
       // Movimiento de los npc
       this.applyNPCPhysics();
       // if (Math.random() < 0.001) {
-      if (Math.random() < CHICKEN_CONFIG.EGG_PROBABILITY) {
+      if (Math.random() < CHICKEN.EGG_PROBABILITY) {
         this.layEdge(this.x, this.y);
       }
     } else if (this.isPlayer) {

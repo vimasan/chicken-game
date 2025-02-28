@@ -3,8 +3,10 @@ export class Egg {
     this.x = x;
     this.y = y;
     this.size = 32;
-    this.hatchTime = Date.now() + 5000;
+    this.incubationTime = Date.now() + 5000;
+    this.maximunLifeTime = this.incubationTime + 5000;
     this.hatched = false;
+    this.expired = false;
   }
 
   // update () {
