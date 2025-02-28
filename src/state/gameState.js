@@ -26,6 +26,7 @@ export const gameState = {
     this.eggCounter = 0;
     this.chickenCounter = 0;
     this.createMainChicken();
+    this.updateCounter();
   },
 
   createMainChicken () {

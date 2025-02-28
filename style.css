@@ -2,17 +2,43 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
 #gameCanvas {
   background: #87ceeb;
 }
+
 #counter {
-  position: fixed;
   top: 20px;
   right: 20px;
   font-size: 24px;
   color: white;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 10px;
   border-radius: 5px;
   font-family: Arial, sans-serif;
+}
+
+#controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+#resetButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#resetButton:hover {
+  background: #cc0000;
 }

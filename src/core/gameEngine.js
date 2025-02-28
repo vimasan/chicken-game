@@ -26,6 +26,11 @@ export const initGame = async () => {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
   const counterElement = document.getElementById('counter');
+  const resetButton = document.getElementById('resetButton');
+
+  resetButton.addEventListener('click', () => {
+    gameState.reset();
+  });
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
