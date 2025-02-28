@@ -1,13 +1,15 @@
 // js/state/gameState.js
 import { Chicken } from '../entities/chicken.js';
 import { Egg } from '../entities/Egg.js';
-import { PHYSICS, AUDIO } from '../config/config.js';
+import { PHYSICS, AUDIO, CHICKEN_CONFIG } from '../config/config.js';
 
 export const gameState = {
   // Propiedades del estado
   canvas: null,
   chickens: [],
   eggs: [],
+  hatchedEggs: [], // Huevos nacidos
+  expiredEggs: [], // Huevos caducados
   eggCounter: 0,
   chickenCounter: 0,
   assets: null,
@@ -57,7 +59,6 @@ export const gameState = {
   },
 
   updateCounter () {
-    console.log('--- update counter');
     if (this.counterElement) {
       this.counterElement.textContent = `Huevos: ${this.eggCounter} | Gallinas: ${this.chickenCounter}`;
     }
@@ -109,15 +110,40 @@ export const gameState = {
     }
   },
 
+  // updateEggs () {
+  //   const now = Date.now();
+  //   this.eggs = this.eggs.filter((egg) => {
+  //     if (now > egg.hatchTime && !egg.hatched) {
+  //       this.hatchEgg(egg);
+  //       this.hatchedEggs.push(egg);
+  //       this.eggCounter--;
+  //       this.updateCounter();
+  //       console.log('egg hatched');
+  //       return false;
+  //     }
+  //     if (egg.hatched) {
+  //       this.expiredEggs.push(egg);
+  //       this.eggCounter--;
+  //       this.updateCounter();
+  //       console.log('egg expected');
+  //       return false;
+  //     }
+  //     return true;
+  //   });
+  // },
+
   updateEggs () {
     const now = Date.now();
     this.eggs = this.eggs.filter((egg) => {
       if (now > egg.hatchTime && !egg.hatched) {
-        this.hatchEgg(egg);
-        this.eggCounter--;
-        this.updateCounter();
-        return false;
-      } else if (egg.hatched) {
+        if (this.chickens.length < CHICKEN_CONFIG.MAX) {
+          this.hatchEgg(egg);
+        }
+        if (egg.hatched) {
+          this.hatchedEggs.push(egg);
+        } else {
+          this.expiredEggs.push(egg);
+        }
         this.eggCounter--;
         this.updateCounter();
         return false;
@@ -128,6 +154,7 @@ export const gameState = {
 
   hatchEgg (egg) {
     if (Math.random() < 0.3) {
+      egg.hatched = true;
       this.addChicken(egg.x, egg.y);
       this.playSound('eggHatch');
       this.chickenCounter++;

@@ -24,5 +24,6 @@ export const AUDIO = {
 };
 
 export const CHICKEN_CONFIG = {
-  EGG_PROBABILITY: 0.003 // 3% de posibilidades de huevo.
+  EGG_PROBABILITY: 0.003, // 3% de posibilidades de huevo.
+  MAX: 10
 };

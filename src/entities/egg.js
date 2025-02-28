@@ -7,9 +7,9 @@ export class Egg {
     this.hatched = false;
   }
 
-  update () {
-    if (Date.now() > this.hatchTime) {
-      this.hatched = true;
-    }
-  }
+  // update () {
+  //   if (Date.now() > this.hatchTime) {
+  //     this.hatched = true;
+  //   }
+  // }
 }
