@@ -11,7 +11,8 @@ export class Renderer {
   drawChicken (chickens) {
     chickens.forEach(chicken => {
       let posImage = chicken.frame * 48;
-      if (chicken.dir === 1) posImage = (chicken.frame * 48) + 96;
+      if (chicken.dir === 1) posImage = (chicken.frame * 48) + 192;
+      if (chicken.dir === -1) posImage = (chicken.frame * 48) + 96;
 
       this.ctx.drawImage(
         this.assets.chicken,
