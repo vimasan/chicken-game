@@ -24,7 +24,7 @@ export const AUDIO = {
 };
 
 export const CHICKEN = {
-  EGG_PROBABILITY: 0.003, // 3% de posibilidades de huevo.
+  EGG_PROBABILITY: 0.001, // 1% de posibilidades de huevo.
   EGG_PROBABILITY_HATCH: 0.3,
   MAX: 100
 };

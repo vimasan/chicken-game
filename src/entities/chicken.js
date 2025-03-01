@@ -5,6 +5,10 @@ export class Chicken {
   constructor (x, y, isPlayer = false) {
     this.x = x;
     this.y = y;
+    this.dx = x;
+    this.dy = y;
+    this.antX = x;
+    this.dir = 0;
     this.isPlayer = isPlayer;
     this.size = 48;
     this.frame = 0;
@@ -19,6 +23,16 @@ export class Chicken {
 
     if (!isPlayer) {
       this.initNPC();
+    }
+  }
+
+  getDirection () {
+    if (this.x === this.antX) {
+      this.dir = 0;
+    } else if (this.x > this.antX) {
+      this.dir = 1;
+    } else {
+      this.dir = -1;
     }
   }
 
@@ -146,6 +160,8 @@ export class Chicken {
   // }
 
   updateAnimation () {
+    this.getDirection();
+    this.antX = this.x;
     this.animationTimer++;
     if (this.animationTimer % 10 === 0) {
       this.frame = (this.frame + 1) % 2;

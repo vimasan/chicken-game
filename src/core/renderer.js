@@ -10,27 +10,18 @@ export class Renderer {
 
   drawChicken (chickens) {
     chickens.forEach(chicken => {
-      // this.ctx.save();
-      // this.ctx.translate(chicken.x, chicken.y);
-      // this.ctx.rotate(chicken.direction);
+      let posImage = chicken.frame * 48;
+      if (chicken.dir === 1) posImage = (chicken.frame * 48) + 96;
 
       this.ctx.drawImage(
         this.assets.chicken,
         // Recorte del sprite
-        chicken.frame * 48,
+        posImage,
         0,
         48,
         48,
         chicken.x - PHYSICS.BOUNCE_MARGIN, chicken.y - PHYSICS.BOUNCE_MARGIN,
         chicken.size, chicken.size);
-
-      // Dibujar sombra para mejor efecto visual
-      // this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      // this.ctx.beginPath();
-      // this.ctx.ellipse(0, 10, 20, 8, 0, 0, Math.PI * 2);
-      // this.ctx.fill();
-
-      // this.ctx.restore();
     });
   }
 
