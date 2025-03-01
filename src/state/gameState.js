@@ -1,4 +1,3 @@
-// js/state/gameState.js
 import { Chicken } from '../entities/chicken.js';
 import { Egg } from '../entities/Egg.js';
 import { PHYSICS, AUDIO, CHICKEN } from '../config/config.js';

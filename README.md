@@ -1,4 +1,4 @@
-# Gallinas Huevonas
+# Gallinas
 
 Un juego de gallinas que ponen huevos, creado con HTML, CSS y JavaScript.
 
@@ -41,6 +41,7 @@ Controlas una gallina que pone huevos (al pulsar la barra espaciadora), de los h
 ## Instalacion
 
 1. Descarga el codigo desde el repositorio.
+2. Instala dependencias `npm install`
 2. Accede al directorio de descarga y lanza `node --run dev`.
 
 
