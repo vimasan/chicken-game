@@ -35,7 +35,7 @@ export class Renderer {
 
       this.ctx.drawImage(
         this.assets.egg, // Imagen
-        posInitialImage, // Posicion izquierdainicial de la imagen
+        posInitialImage, // Posicion izquierda inicial de la imagen
         0, // Posicion inicial superior de la imagen
         48, // Ancho de la imagen
         51, // Alto de la imagen
@@ -47,9 +47,6 @@ export class Renderer {
     });
   }
 
-  drawCounter (counter) {
-  }
-
   clearCanvas () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
@@ -59,8 +56,5 @@ export class Renderer {
 
     this.drawChicken(state.chickens);
     this.drawEggs(state.eggs);
-    // this.drawHatchedEggs(state.hatchedEggs);
-    // this.drawExpiredEggs(state.expiredEggs);
-    this.drawCounter(state.counter);
   }
 }

@@ -8,10 +8,4 @@ export class Egg {
     this.hatched = false;
     this.expired = false;
   }
-
-  // update () {
-  //   if (Date.now() > this.hatchTime) {
-  //     this.hatched = true;
-  //   }
-  // }
 }
