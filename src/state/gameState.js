@@ -53,6 +53,10 @@ export const gameState = {
       newChicken.dx = (Math.random() - 0.5) * PHYSICS.MAX_SPEED * 2;
       newChicken.dy = (Math.random() - 0.5) * PHYSICS.MAX_SPEED * 2;
       this.chickens.push(newChicken);
+      this.playSound('eggHatch');
+      this.chickenCounter++;
+      this.updateCounter();
+
       return true;
     }
     return false;
@@ -129,9 +133,6 @@ export const gameState = {
     if (Math.random() < CHICKEN.EGG_PROBABILITY_HATCH && this.chickenCounter < CHICKEN.MAX) {
       egg.hatched = true;
       this.addChicken(egg.x, egg.y);
-      this.playSound('eggHatch');
-      this.chickenCounter++;
-      this.updateCounter();
     } else {
       egg.expired = true;
     }
