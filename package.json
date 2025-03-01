@@ -1,8 +1,11 @@
 {
   "name": "chicken-game",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "author": "Victor Manuel",
+  "license": "MIT",
+  "description": "Juego que controlas una gallina que pone huevos",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
