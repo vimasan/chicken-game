@@ -95,6 +95,17 @@ export const gameState = {
           }
         }
       });
+
+      // Colisiones de las gallinas con los huevos
+      this.eggs.forEach((egg) => {
+        const dx = chicken.x - (egg.x + 20);
+        const dy = chicken.y - (egg.y + 20);
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < PHYSICS.COLLISION_RADIUS) {
+          this.handleCollision(null, chicken, dx, dy, distance);
+        }
+      });
     });
   },
 
@@ -102,12 +113,12 @@ export const gameState = {
     const angle = Math.atan2(dy, dx);
     const force = (PHYSICS.COLLISION_RADIUS - distance) / PHYSICS.COLLISION_RADIUS;
 
-    if (!a.isPlayer) {
+    if (!!a && !a.isPlayer) {
       a.dx -= Math.cos(angle) * force * PHYSICS.REPEL_FORCE;
       a.dy -= Math.sin(angle) * force * PHYSICS.REPEL_FORCE;
     }
 
-    if (!b.isPlayer) {
+    if (!!b && !b.isPlayer) {
       b.dx += Math.cos(angle) * force * PHYSICS.REPEL_FORCE;
       b.dy += Math.sin(angle) * force * PHYSICS.REPEL_FORCE;
     }
