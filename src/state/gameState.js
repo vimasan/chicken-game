@@ -80,8 +80,8 @@ export const gameState = {
   checkCollisions () {
     this.chickens.forEach((chicken, index) => {
       // Colisiones con bordes
-      chicken.x = Math.max(24, Math.min(chicken.x, this.canvas.width - 24));
-      chicken.y = Math.max(24, Math.min(chicken.y, this.canvas.height - 24));
+      chicken.x = Math.max(PHYSICS.BOUNCE_MARGIN, Math.min(chicken.x, this.canvas.width - PHYSICS.BOUNCE_MARGIN));
+      chicken.y = Math.max(PHYSICS.BOUNCE_MARGIN, Math.min(chicken.y, this.canvas.height - PHYSICS.BOUNCE_MARGIN));
 
       // Colisiones entre gallinas
       this.chickens.forEach((other, otherIndex) => {
